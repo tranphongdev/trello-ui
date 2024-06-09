@@ -1,7 +1,9 @@
+import { Button } from '@mui/material';
+
 function App() {
     return (
         <>
-            <p>Hello word</p>
+            <Button variant="contained">Hello world</Button>
         </>
     );
 }
