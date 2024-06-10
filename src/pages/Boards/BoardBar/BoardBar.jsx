@@ -22,12 +22,13 @@ import { Menu } from '@mui/material';
 import { useState } from 'react';
 
 const MENU_STYLE = {
-    color: 'primary.main',
-    bgcolor: 'white',
+    color: { xs: 'primary.main', lg: 'white' },
+    bgcolor: 'transparent',
     borderRadius: 1,
+    border: 'none',
     px: '5px',
-    '& .MuiSvgIcon-root': {
-        color: 'primary.main',
+    '.MuiSvgIcon-root': {
+        color: { xs: 'primary.main', lg: 'white' },
     },
     '&:hover': {
         bgcolor: 'primary',
@@ -56,7 +57,8 @@ function BoadBar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                borderTop: '1px solid #3498db',
+                bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
+                borderBottom: '1px solid white',
             }}
         >
             {/* Icon Menu Mobile */}
@@ -66,13 +68,13 @@ function BoadBar() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
-                sx={{ padding: 0, display: { xs: 'flex', md: 'none', color: 'primary.main' } }}
+                sx={{ padding: 0, display: { xs: 'flex', lg: 'none' } }}
             >
-                <MenuIcon />
+                <MenuIcon sx={{ color: 'white' }} />
             </IconButton>
 
             {/* Menu Desktop Left */}
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            <Box sx={{ display: { xs: 'none', lg: 'flex' }, gap: 2, alignItems: 'center' }}>
                 <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label="Dashboard" clickable />
                 <Chip sx={MENU_STYLE} icon={<VpnLockIcon />} label="Public" clickable />
                 <Chip sx={MENU_STYLE} icon={<AddToDriveIcon />} label="Add To Goole Driver" clickable />
@@ -81,7 +83,7 @@ function BoadBar() {
             </Box>
 
             {/* Mobie Menu */}
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <Box sx={{ display: { xs: 'flex', lg: 'none' } }}>
                 <Menu
                     id="menu-appbar"
                     anchorEl={anchorElNav}
@@ -97,7 +99,7 @@ function BoadBar() {
                     open={Boolean(anchorElNav)}
                     onClose={handleCloseNavMenu}
                     sx={{
-                        display: { xs: 'block', md: 'none' },
+                        display: { xs: 'block', lg: 'none' },
                     }}
                 >
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -114,7 +116,9 @@ function BoadBar() {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Button
                     sx={{
-                        color: 'primary.main',
+                        color: 'white',
+                        border: '1px solid white',
+                        '&:hover': { border: '1px solid white' },
                     }}
                     variant="outlined"
                     startIcon={<GroupAddIcon />}
@@ -125,10 +129,13 @@ function BoadBar() {
                     max={6}
                     total={10}
                     sx={{
+                        gap: '10px',
                         '& .MuiAvatar-root': {
                             width: '34px',
                             height: '34px',
                             fontSize: '16px',
+                            border: 'none',
+                            color: 'white',
                         },
                     }}
                 >

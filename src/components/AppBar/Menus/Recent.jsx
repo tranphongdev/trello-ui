@@ -25,7 +25,13 @@ function Recent() {
     return (
         <Box>
             <Button
-                sx={{ color: 'primary.main', width: '100%', display: 'flex', justifyContent: 'space-between' }}
+                sx={{
+                    px: { xs: '14px', lg: '8px' },
+                    color: { xs: 'primary.main', lg: 'white' },
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}
                 id="basic-button-recent"
                 aria-controls={open ? 'basic-menu-recent' : undefined}
                 aria-haspopup="true"

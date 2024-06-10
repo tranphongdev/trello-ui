@@ -6,20 +6,8 @@ const theme = extendTheme({
         boardBarHeight: '60px',
     },
     colorSchemes: {
-        light: {
-            palette: {
-                // primary: {
-                //     main: '#6a1b9a',
-                // },
-            },
-        },
-        dark: {
-            palette: {
-                // primary: {
-                //     main: '#000',
-                // },
-            },
-        },
+        light: {},
+        dark: {},
     },
     components: {
         MuiCssBaseline: {
@@ -35,6 +23,9 @@ const theme = extendTheme({
                     },
                     '*::-webkit-scrollbar-thumb:hover': {
                         backgroundColor: 'white',
+                    },
+                    '*::-webkit-scrollbar-track': {
+                        background: '#f1f1f1',
                     },
                 },
             },
@@ -58,20 +49,11 @@ const theme = extendTheme({
         },
         MuiOutlinedInput: {
             styleOverrides: {
-                root: ({ theme }) => {
-                    return {
-                        color: theme.palette.primary.main,
-                        '& fieldset': { borderWidth: '0.5px !important' },
-                        fontSize: '0.875rem',
-                        '.MuiOutlinedInput-notchedOutline': {
-                            borderColor: theme.palette.primary.light,
-                        },
-                        '&:hover': {
-                            '.MuiOutlinedInput-notchedOutline': {
-                                borderColor: theme.palette.primary.main,
-                            },
-                        },
-                    };
+                root: {
+                    fontSize: '0.875rem',
+                    '& fieldset': { borderWidth: '0.5px !important' },
+                    '&:hover fieldset': { borderWidth: '2px !important' },
+                    '&.Mui-focused fieldset': { borderWidth: '2px !important' },
                 },
             },
         },

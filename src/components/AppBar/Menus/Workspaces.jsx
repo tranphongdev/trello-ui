@@ -28,7 +28,10 @@ function Workspaces() {
     return (
         <Box>
             <Button
-                sx={{ color: 'primary.main' }}
+                sx={{
+                    px: { xs: '14px', lg: '8px' },
+                    color: { xs: 'primary.main', lg: 'white' },
+                }}
                 id="basic-button-workspaces"
                 aria-controls={open ? 'basic-menu-workspaces' : undefined}
                 aria-haspopup="true"
