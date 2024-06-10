@@ -1,26 +1,22 @@
 import React from 'react';
-import {
-    AppBar,
-    Box,
-    Toolbar,
-    IconButton,
-    Typography,
-    Container,
-    Button,
-    Tooltip,
-    Menu,
-    MenuItem,
-    Badge,
-    TextField,
-} from '@mui/material';
-import {
-    Apps as AppsIcon,
-    Assessment as AssessmentIcon,
-    AddToPhotos as AddToPhotosIcon,
-    NotificationsNone as NotificationsNoneIcon,
-    HelpOutline as HelpOutlineIcon,
-    Menu as MenuIcon,
-} from '@mui/icons-material';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import Menu from '@mui/material/Menu';
+import Badge from '@mui/material/Badge';
+import TextField from '@mui/material/TextField';
+
+import AppsIcon from '@mui/icons-material/Apps';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import ModeSelect from '~/components/ModeSelect/ModeSelect';
 import Workspaces from './Menus/Workspaces';
@@ -28,8 +24,6 @@ import Recent from './Menus/Recent';
 import Starred from './Menus/Starred';
 import Teamplates from './Menus/Teamplates';
 import Profiles from './Menus/Profiles';
-
-const pages = ['Workspaces', 'Recent', 'Starred', 'Teamplates'];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -43,7 +37,7 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'white' }}>
+        <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
             <Container disableGutters maxWidth={false}>
                 <Toolbar disableGutters>
                     {/* Icon Bars */}
@@ -175,6 +169,7 @@ function ResponsiveAppBar() {
                         <ModeSelect />
                     </Box>
 
+                    {/* Profile */}
                     <Box sx={{ flexGrow: 0, px: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Tooltip title="Notification">
                             <Badge color="error" variant="dot" sx={{ cursor: 'pointer' }}>
