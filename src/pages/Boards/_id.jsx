@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box';
 import { Container } from '@mui/material';
-import AppBar from '~/components/AppBar';
+
+import AppBar from '~/components/AppBar/AppBar';
 import BoadBar from './BoardBar';
 import BoardContent from './BoardContent';
 
