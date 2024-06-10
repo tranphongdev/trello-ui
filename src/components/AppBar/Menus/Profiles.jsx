@@ -34,7 +34,7 @@ function Profiles() {
             >
                 <Avatar
                     alt="TranPhongDev"
-                    sx={{ width: 32, height: 32 }}
+                    sx={{ width: 34, height: 34 }}
                     src="https://media.licdn.com/dms/image/D5603AQFK9LF_Ltpaww/profile-displayphoto-shrink_800_800/0/1717410426700?e=1723680000&v=beta&t=ZnanRt7sZmtnJnxeRGwN-wE7lSMcE16Pr0N6ZXO6SjM"
                 />
             </IconButton>

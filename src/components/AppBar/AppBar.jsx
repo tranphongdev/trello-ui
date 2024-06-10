@@ -16,7 +16,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import MenuIcon from '@mui/icons-material/Menu';
+import WidgetsIcon from '@mui/icons-material/Widgets';
 
 import ModeSelect from '~/components/ModeSelect/ModeSelect';
 import Workspaces from './Menus/Workspaces';
@@ -49,7 +49,7 @@ function ResponsiveAppBar() {
                         onClick={handleOpenNavMenu}
                         sx={{ display: { xs: 'flex', lg: 'none', color: 'primary.main' } }}
                     >
-                        <MenuIcon />
+                        <WidgetsIcon />
                     </IconButton>
 
                     {/* Icon Apps */}

@@ -7,6 +7,19 @@ import VpnLockIcon from '@mui/icons-material/VpnLock';
 import AddToDriveIcon from '@mui/icons-material/AddToDrive';
 import BoltIcon from '@mui/icons-material/Bolt';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+
+import Avatar1 from '~/assets/avatar1.jfif';
+import Avatar2 from '~/assets/avatar2.jpg';
+import Avatar3 from '~/assets/avatar3.jpg';
+import Avatar4 from '~/assets/avatar4.jpg';
+import Avatar5 from '~/assets/avatar5.jpg';
+import { Menu } from '@mui/material';
+import { useState } from 'react';
 
 const MENU_STYLE = {
     color: 'primary.main',
@@ -19,9 +32,21 @@ const MENU_STYLE = {
     '&:hover': {
         bgcolor: 'primary',
     },
+    display: 'flex',
+    justifyContent: 'start',
+    gap: 1,
 };
 
 function BoadBar() {
+    const [anchorElNav, setAnchorElNav] = useState(null);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
     return (
         <Box
             px={2}
@@ -34,20 +59,97 @@ function BoadBar() {
                 borderTop: '1px solid #3498db',
             }}
         >
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {/* Icon Menu Mobile */}
+            <IconButton
+                size="large"
+                aria-label="open drawer"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                sx={{ padding: 0, display: { xs: 'flex', md: 'none', color: 'primary.main' } }}
+            >
+                <MenuIcon />
+            </IconButton>
+
+            {/* Menu Desktop Left */}
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
                 <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label="Dashboard" clickable />
                 <Chip sx={MENU_STYLE} icon={<VpnLockIcon />} label="Public" clickable />
                 <Chip sx={MENU_STYLE} icon={<AddToDriveIcon />} label="Add To Goole Driver" clickable />
                 <Chip sx={MENU_STYLE} icon={<BoltIcon />} label="Automation" clickable />
                 <Chip sx={MENU_STYLE} icon={<FilterListIcon />} label="Filter" clickable />
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <AvatarGroup max={4}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                    <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                    <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+
+            {/* Mobie Menu */}
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                        display: { xs: 'block', md: 'none' },
+                    }}
+                >
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label="Dashboard" clickable />
+                        <Chip sx={MENU_STYLE} icon={<VpnLockIcon />} label="Public" clickable />
+                        <Chip sx={MENU_STYLE} icon={<AddToDriveIcon />} label="Add To Goole Driver" clickable />
+                        <Chip sx={MENU_STYLE} icon={<BoltIcon />} label="Automation" clickable />
+                        <Chip sx={MENU_STYLE} icon={<FilterListIcon />} label="Filter" clickable />
+                    </Box>
+                </Menu>
+            </Box>
+
+            {/* Menu Desktop Right */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Button
+                    sx={{
+                        color: 'primary.main',
+                    }}
+                    variant="outlined"
+                    startIcon={<GroupAddIcon />}
+                >
+                    Invite
+                </Button>
+                <AvatarGroup
+                    max={6}
+                    total={10}
+                    sx={{
+                        '& .MuiAvatar-root': {
+                            width: '34px',
+                            height: '34px',
+                            fontSize: '16px',
+                        },
+                    }}
+                >
+                    <Tooltip title="TranPhongDev">
+                        <Avatar alt="TranPhongDev" src={Avatar4} />
+                    </Tooltip>
+                    <Tooltip title="TranPhongDev">
+                        <Avatar alt="TranPhongDev" src={Avatar2} />
+                    </Tooltip>
+                    <Tooltip title="TranPhongDev">
+                        <Avatar alt="TranPhongDev" src={Avatar5} />
+                    </Tooltip>
+                    <Tooltip title="TranPhongDev">
+                        <Avatar alt="TranPhongDev" src={Avatar1} />
+                    </Tooltip>
+                    <Tooltip title="TranPhongDev">
+                        <Avatar alt="TranPhongDev" src={Avatar3} />
+                    </Tooltip>
+                    <Tooltip title="TranPhongDev">
+                        <Avatar alt="TranPhongDev" src={Avatar1} />
+                    </Tooltip>
                 </AvatarGroup>
             </Box>
         </Box>
