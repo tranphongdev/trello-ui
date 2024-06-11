@@ -58,7 +58,6 @@ function BoadBar() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
-                borderBottom: '1px solid white',
             }}
         >
             {/* Icon Menu Mobile */}
