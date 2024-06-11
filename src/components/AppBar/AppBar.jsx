@@ -46,6 +46,10 @@ function AppBars() {
             sx={{
                 bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0'),
                 boxShadow: 'none',
+                height: (theme) => theme.trello.appBarHeight,
+                '.MuiToolbar-root': {
+                    minHeight: (theme) => theme.trello.appBarHeight,
+                },
             }}
         >
             <Container disableGutters maxWidth={false}>

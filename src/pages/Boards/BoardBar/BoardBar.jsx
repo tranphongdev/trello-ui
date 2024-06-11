@@ -126,7 +126,7 @@ function BoadBar() {
                     Invite
                 </Button>
                 <AvatarGroup
-                    max={6}
+                    max={5}
                     total={10}
                     sx={{
                         gap: '10px',
@@ -136,6 +136,8 @@ function BoadBar() {
                             fontSize: '16px',
                             border: 'none',
                             color: 'white',
+                            cursor: 'pointer',
+                            '&:first-of-type': { bgcolor: '#a4b0be' },
                         },
                     }}
                 >
