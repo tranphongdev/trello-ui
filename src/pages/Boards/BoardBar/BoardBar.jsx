@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -12,14 +13,14 @@ import Tooltip from '@mui/material/Tooltip';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
 
+import { capitalizeFirstLetter } from '~/utils/formatters';
 import Avatar1 from '~/assets/avatar1.jfif';
 import Avatar2 from '~/assets/avatar2.jpg';
 import Avatar3 from '~/assets/avatar3.jpg';
 import Avatar4 from '~/assets/avatar4.jpg';
 import Avatar5 from '~/assets/avatar5.jpg';
-import { Menu } from '@mui/material';
-import { useState } from 'react';
 
 const MENU_STYLE = {
     color: { xs: 'primary.main', lg: 'white' },
@@ -38,7 +39,7 @@ const MENU_STYLE = {
     gap: 1,
 };
 
-function BoadBar() {
+function BoadBar({ board }) {
     const [anchorElNav, setAnchorElNav] = useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -74,8 +75,8 @@ function BoadBar() {
 
             {/* Menu Desktop Left */}
             <Box sx={{ display: { xs: 'none', lg: 'flex' }, gap: 2, alignItems: 'center' }}>
-                <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label="Dashboard" clickable />
-                <Chip sx={MENU_STYLE} icon={<VpnLockIcon />} label="Public" clickable />
+                <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label={board?.title} clickable />
+                <Chip sx={MENU_STYLE} icon={<VpnLockIcon />} label={capitalizeFirstLetter(board?.type)} clickable />
                 <Chip sx={MENU_STYLE} icon={<AddToDriveIcon />} label="Add To Goole Driver" clickable />
                 <Chip sx={MENU_STYLE} icon={<BoltIcon />} label="Automation" clickable />
                 <Chip sx={MENU_STYLE} icon={<FilterListIcon />} label="Filter" clickable />
