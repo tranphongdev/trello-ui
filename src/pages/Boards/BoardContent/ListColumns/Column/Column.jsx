@@ -15,20 +15,17 @@ import ContentPaste from '@mui/icons-material/ContentPaste';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import Button from '@mui/material/Button';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
+import { mapOrder } from '~/utils/sorts';
 
 import Box from '@mui/material/Box';
 import ListCards from './ListCards/ListCards';
 
-function Column() {
+function Column({ column }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+    const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
     return (
         <Box
             sx={{
@@ -59,7 +56,7 @@ function Column() {
                         fontSize: '1rem',
                     }}
                 >
-                    Column Title
+                    {column?.title}
                 </Typography>
                 <Box>
                     <Tooltip title="More options">
@@ -123,7 +120,7 @@ function Column() {
             </Box>
 
             {/* Box column list card */}
-            <ListCards />
+            <ListCards cards={orderedCards} />
 
             {/* Box column footer */}
             <Box
