@@ -2,7 +2,7 @@ export const mockData = {
     board: {
         _id: 'board-id-01',
         title: 'Dashoard',
-        description: 'Pro MERN stack Course',
+        description: 'MERN stack',
         type: 'public', // 'private'
         ownerIds: [], // Những users là Admin của board
         memberIds: [], // Những users là member bình thường của board
