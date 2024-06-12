@@ -33,9 +33,9 @@ const theme = extendTheme({
                     '*::-webkit-scrollbar-thumb:hover': {
                         backgroundColor: 'white',
                     },
-                    '*::-webkit-scrollbar-track': {
-                        background: '#f1f1f1',
-                    },
+                    // '*::-webkit-scrollbar-track': {
+                    //     background: '#f1f1f1',
+                    // },
                 },
             },
         },
