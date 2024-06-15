@@ -75,7 +75,9 @@ function BoadBar({ board }) {
 
             {/* Menu Desktop Left */}
             <Box sx={{ display: { xs: 'none', lg: 'flex' }, gap: 2, alignItems: 'center' }}>
-                <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label={board?.title} clickable />
+                <Tooltip title={board?.description}>
+                    <Chip sx={MENU_STYLE} icon={<DashboardIcon />} label={board?.title} clickable />
+                </Tooltip>
                 <Chip sx={MENU_STYLE} icon={<VpnLockIcon />} label={capitalizeFirstLetter(board?.type)} clickable />
                 <Chip sx={MENU_STYLE} icon={<AddToDriveIcon />} label="Add To Goole Driver" clickable />
                 <Chip sx={MENU_STYLE} icon={<BoltIcon />} label="Automation" clickable />
