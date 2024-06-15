@@ -11,15 +11,15 @@ function Board() {
     const [board, setBoard] = useState(null);
 
     useEffect(() => {
-        const boardId = '666d4de2ebcd8206e719d8d0';
+        const boardId = '666dabcb95b034b88d4f7f5f';
         fetchBoardDetailsAPI(boardId).then((board) => setBoard(board));
     }, []);
 
     return (
         <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
             <AppBar />
-            <BoadBar board={board} />
-            <BoardContent board={board} />
+            <BoadBar board={mockData.board} />
+            <BoardContent board={mockData.board} />
         </Container>
     );
 }
