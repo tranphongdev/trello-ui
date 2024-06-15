@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { mapOrder } from '~/utils/sorts';
 import { arrayMove } from '@dnd-kit/sortable';
 import Box from '@mui/material/Box';
@@ -13,14 +13,15 @@ import {
     defaultDropAnimationSideEffects,
     closestCorners,
     pointerWithin,
-    rectIntersection,
+    // rectIntersection,
     getFirstCollision,
-    closestCenter,
+    // closestCenter,
 } from '@dnd-kit/core';
 
 import ListColumns from './ListColumns/ListColumns';
 import Column from './ListColumns/Column/Column';
 import Card from './ListColumns/Column/ListCards/Card/Card';
+import { generatePlaceholderCard } from '~/utils/formatters';
 
 const ACTIVE_DRAG_ITEM_TYPE = {
     COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -95,8 +96,13 @@ function BoardContent({ board }) {
                 //Xoá card ở cái column active (column cũ trước khi kéo sang column mới)
                 nextActiveColumn.cards = nextActiveColumn.cards.filter((card) => card._id !== activeDraggingCardId);
 
+                // Thêm card giữ chỗ nếu column rỗng
+                if (isEmpty(nextActiveColumn.cards)) {
+                    nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)];
+                }
+
                 // Cập nhật lại mảng OrderIds cho chuẩn dữ liệu
-                nextActiveColumn.columnOrderIds = nextActiveColumn.cards.map((card) => card._id);
+                nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map((card) => card._id);
             }
             // Column mới
             if (nextOverColumn) {
@@ -111,8 +117,11 @@ function BoardContent({ board }) {
                 // Tiếp là thêm cái card đang kéo vào overColumn theo vị trí mới
                 nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, rebuild_activeDraggingCardData);
 
+                // Xoá card giữ chỗ nếu có ít nhất 1 card đang tồn tại trong column
+                nextOverColumn.cards = nextOverColumn.cards.filter((card) => !card.FE_PlaceholderCard);
+
                 // Cập nhật lại mảng OrderIds cho chuẩn dữ liệu
-                nextOverColumn.columnOrderIds = nextOverColumn.cards.map((card) => card._id);
+                nextOverColumn.cardOrderIds = nextOverColumn.cards.map((card) => card._id);
             }
 
             return nextColumns;
@@ -256,13 +265,16 @@ function BoardContent({ board }) {
             }
 
             const pointerIntersections = pointerWithin(args);
-            const intersections = !!pointerIntersections?.length ? pointerIntersections : rectIntersection(args);
 
-            let overId = getFirstCollision(intersections, 'id');
+            if (!pointerIntersections?.length) return;
+
+            // const intersections = !!pointerIntersections?.length ? pointerIntersections : rectIntersection(args);
+
+            let overId = getFirstCollision(pointerIntersections, 'id');
             if (overId) {
                 const checkColumn = orderedColumns.find((column) => column._id === overId);
                 if (checkColumn) {
-                    overId = closestCenter({
+                    overId = closestCorners({
                         ...args,
                         droppableContainers: args.droppableContainers.filter((container) => {
                             return container.id !== overId && checkColumn?.cardOrderIds?.includes(container.id);
