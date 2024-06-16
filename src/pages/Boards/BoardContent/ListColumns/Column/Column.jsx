@@ -22,8 +22,9 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'react-toastify';
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
@@ -32,12 +33,22 @@ function Column({ column }) {
     const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm);
     const [newCardTitle, setNewCardTitle] = useState('');
 
-    const addNewCard = () => {
+    const addNewCard = async () => {
         if (!newCardTitle) {
-            // console.log('Please enter title!');
+            toast.error('Please enter Card Title!', { position: 'bottom-right' });
             return;
         }
-        // console.log(newCardTitle);
+
+        // Tạo dữ liệu card để gọi API
+        const newCardData = {
+            title: newCardTitle,
+            columnId: column._id,
+        };
+
+        // Gọi lên prop createNewCard nằm ở component cha cao nhất (board/_id.jsx)
+        await createNewCard(newCardData);
+
+        // Đóng trạng thái & Clear input;
         toggleOpenNewCardForm();
         setNewCardTitle('');
     };

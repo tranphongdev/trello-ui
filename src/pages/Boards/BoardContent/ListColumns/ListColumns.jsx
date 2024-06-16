@@ -6,18 +6,28 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useState } from 'react';
 import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'react-toastify';
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
     const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
     const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm);
     const [newColumnTitle, setNewColumnTitle] = useState('');
 
-    const addNewColumn = () => {
+    const addNewColumn = async () => {
         if (!newColumnTitle) {
-            // console.log('Please enter title!');
+            toast.error('Please enter Column Title!');
             return;
         }
-        // console.log(newColumnTitle);
+
+        // Tạo dữ liệu để gọi API
+        const newColumnData = {
+            title: newColumnTitle,
+        };
+
+        // Gọi lên prop createNewCard nằm ở component cha cao nhất (board/_id.jsx)
+        await createNewColumn(newColumnData);
+
+        // Clear Input & cập nhật lại state
         toggleOpenNewColumnForm();
         setNewColumnTitle('');
     };
@@ -38,7 +48,7 @@ function ListColumns({ columns }) {
                 }}
             >
                 {columns?.map((column) => (
-                    <Column key={column._id} column={column} />
+                    <Column key={column._id} column={column} createNewCard={createNewCard} />
                 ))}
 
                 {/* Box add new column */}
