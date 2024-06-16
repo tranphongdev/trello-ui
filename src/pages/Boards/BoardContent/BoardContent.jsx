@@ -28,7 +28,14 @@ const ACTIVE_DRAG_ITEM_TYPE = {
     CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD',
 };
 
-function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSameColumn }) {
+function BoardContent({
+    board,
+    createNewColumn,
+    createNewCard,
+    moveColumns,
+    moveCardInTheSameColumn,
+    moveCardToDifferentColumn,
+}) {
     // https://docs.dndkit.com/api-documentation/sensors
     // const poiterSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10, }, });
     const mouseSensor = useSensor(MouseSensor, {
@@ -75,6 +82,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
         activeColumn,
         activeDraggingCardId,
         activeDraggingCardData,
+        triggerFrom,
     ) => {
         setOrderedColumns((prev) => {
             // Tìm vị trí của cái overCard  trong column đích (nơi card sắp được thả)
@@ -124,6 +132,16 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
                 nextOverColumn.cardOrderIds = nextOverColumn.cards.map((card) => card._id);
             }
 
+            // Nếu func này được gọi từ handleDragEnd nghĩa là đã kéo thả xong, lúc này mới xử lý gọi API 1 lần ở đây
+            if (triggerFrom === 'handleDragEnd') {
+                moveCardToDifferentColumn(
+                    activeDraggingCardId,
+                    oldColumnWhenDraggingCard._id,
+                    nextOverColumn._id,
+                    nextColumns,
+                );
+            }
+
             return nextColumns;
         });
     };
@@ -171,6 +189,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
                 activeColumn,
                 activeDraggingCardId,
                 activeDraggingCardData,
+                'handleDragOver',
             );
         }
     };
@@ -204,6 +223,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
                     activeColumn,
                     activeDraggingCardId,
                     activeDraggingCardData,
+                    'handleDragEnd',
                 );
             } else {
                 // Kéo thả card trong cùng 1 column

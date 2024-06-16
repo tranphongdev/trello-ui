@@ -11,6 +11,7 @@ import {
     createNewCardAPI,
     createNewColumnAPI,
     fetchBoardDetailsAPI,
+    moveCardToDifferentColumnAPI,
     updateBoardDetailsAPI,
     updateColumnDetailsAPI,
 } from '~/apis';
@@ -66,9 +67,16 @@ function Board() {
             ...board,
         };
         const columnToUpdate = newBoard.columns.find((column) => column._id === createdCard.columnId);
+        // Nếu column rỗng (chứa FE_PlaceholderCard)
         if (columnToUpdate) {
-            columnToUpdate.cards.push(createdCard);
-            columnToUpdate.cardOrderIds.push(createdCard._id);
+            if (columnToUpdate.cards.some((card) => card.FE_PlaceholderCard)) {
+                columnToUpdate.cards = [createdCard];
+                columnToUpdate.cardOrderIds = [createdCard._id];
+            } else {
+                // Ngược lại có data thì push vào cuối mảng
+                columnToUpdate.cards.push(createdCard);
+                columnToUpdate.cardOrderIds.push(createdCard._id);
+            }
         }
         setBoard(newBoard);
     };
@@ -99,6 +107,28 @@ function Board() {
         updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds });
     };
 
+    const moveCardToDifferentColumn = (currentCardId, prevColumnId, nextColumnId, dndOrderedColumns) => {
+        // Update cho chuẩn dữ liệu state Board
+        const dndOrderedColumnsIds = dndOrderedColumns.map((c) => c._id);
+        const newBoard = { ...board };
+        newBoard.columns = dndOrderedColumns;
+        newBoard.columnOrderIds = dndOrderedColumnsIds;
+        setBoard(newBoard);
+
+        let prevCardOrderIds = dndOrderedColumns.find((c) => c._id === prevColumnId)?.cardOrderIds;
+        // Xử lý vấn đề khi kéo phần tử cuối cùng ra khỏi column, Column rỗng sẽ có placeholder-card, cần xoá đi trước khi gửi dữ liệu cho BE
+        if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = [];
+
+        // Gọi API xử lý phía BE
+        moveCardToDifferentColumnAPI({
+            currentCardId,
+            prevColumnId,
+            prevCardOrderIds,
+            nextColumnId,
+            nextCardOrderIds: dndOrderedColumns.find((c) => c._id === nextColumnId)?.cardOrderIds,
+        });
+    };
+
     if (!board) {
         return (
             <Box
@@ -127,6 +157,7 @@ function Board() {
                 createNewCard={createNewCard}
                 moveColumns={moveColumns}
                 moveCardInTheSameColumn={moveCardInTheSameColumn}
+                moveCardToDifferentColumn={moveCardToDifferentColumn}
             />
         </Container>
     );
