@@ -29,7 +29,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
     CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD',
 };
 
-function BoardContent({ board }) {
+function BoardContent({ board, createNewColumn, createNewCard }) {
     // https://docs.dndkit.com/api-documentation/sensors
     // const poiterSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10, }, });
     const mouseSensor = useSensor(MouseSensor, {
@@ -312,7 +312,7 @@ function BoardContent({ board }) {
                     p: '10px 0',
                 }}
             >
-                <ListColumns columns={orderedColumns} />
+                <ListColumns createNewColumn={createNewColumn} createNewCard={createNewCard} columns={orderedColumns} />
                 <DragOverlay dropAnimation={dropAnimation}>
                     {!activeDragItemType && null}
                     {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && <Column column={activeDragItemData} />}
