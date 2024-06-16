@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { cloneDeep, isEmpty } from 'lodash';
-import { mapOrder } from '~/utils/sorts';
 import { arrayMove } from '@dnd-kit/sortable';
 import Box from '@mui/material/Box';
 import {
@@ -29,7 +28,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
     CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD',
 };
 
-function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSameColumn }) {
     // https://docs.dndkit.com/api-documentation/sensors
     // const poiterSensor = useSensor(PointerSensor, {activationConstraint: { distance: 10, }, });
     const mouseSensor = useSensor(MouseSensor, {
@@ -60,12 +59,12 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
     const lastOverId = useRef(null);
 
     useEffect(() => {
-        setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'));
+        setOrderedColumns(board.columns);
     }, [board]);
 
     // Tìm 1 cái column theo CardId
     const findColumnByCardId = (cardId) => {
-        return orderedColumns.find((column) => column.cards.map((card) => card._id)?.includes(cardId));
+        return orderedColumns.find((column) => column?.cards?.map((card) => card._id)?.includes(cardId));
     };
 
     const moveCardBetweenDifferentColumns = (
@@ -208,7 +207,6 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
                 );
             } else {
                 // Kéo thả card trong cùng 1 column
-
                 // Lấy vị trí cũ từ thằng active
                 const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex((c) => c._id === activeDragItemId);
                 // Lấy vị trí mới từ thằng active
@@ -216,16 +214,19 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
 
                 // Dùng arrmove vì kéo card trong 1 column tương tự như kéo 1 column trong boardcontent
                 const dndOrderedCards = arrayMove(oldColumnWhenDraggingCard?.cards, oldCardIndex, newCardIndex);
+                const dndOrderedCardIds = dndOrderedCards.map((card) => card._id);
 
                 setOrderedColumns((prev) => {
                     const nextColumns = cloneDeep(prev);
 
                     const targetColumn = nextColumns.find((c) => c._id === overColumn._id);
                     targetColumn.cards = dndOrderedCards;
-                    targetColumn.cardOrderIds = dndOrderedCards.map((card) => card._id);
+                    targetColumn.cardOrderIds = dndOrderedCardIds;
 
                     return nextColumns;
                 });
+
+                moveCardInTheSameColumn(dndOrderedCards, dndOrderedCardIds, oldColumnWhenDraggingCard._id);
             }
         }
 
@@ -240,10 +241,9 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
                 // Dùng araymove sắp xếp lại mảng column
                 const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex);
 
-                moveColumns(dndOrderedColumns);
-
                 // Cập nhật state sau khi kéo thả
                 setOrderedColumns(dndOrderedColumns);
+                moveColumns(dndOrderedColumns);
             }
         }
 

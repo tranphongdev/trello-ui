@@ -15,7 +15,6 @@ import ContentPaste from '@mui/icons-material/ContentPaste';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import Button from '@mui/material/Button';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { mapOrder } from '~/utils/sorts';
 import Box from '@mui/material/Box';
 import ListCards from './ListCards/ListCards';
 import { useSortable } from '@dnd-kit/sortable';
@@ -27,13 +26,13 @@ import { toast } from 'react-toastify';
 function Column({ column, createNewCard }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
+    const orderedCards = column.cards;
 
     const [openNewCardForm, setOpenNewCardForm] = useState(false);
     const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm);
     const [newCardTitle, setNewCardTitle] = useState('');
 
-    const addNewCard = async () => {
+    const addNewCard = () => {
         if (!newCardTitle) {
             toast.error('Please enter Card Title!', { position: 'bottom-right' });
             return;
@@ -46,7 +45,7 @@ function Column({ column, createNewCard }) {
         };
 
         // Gọi lên prop createNewCard nằm ở component cha cao nhất (board/_id.jsx)
-        await createNewCard(newCardData);
+        createNewCard(newCardData);
 
         // Đóng trạng thái & Clear input;
         toggleOpenNewCardForm();
