@@ -7,8 +7,8 @@ import {
     DndContext,
     useSensor,
     useSensors,
-    MouseSensor,
-    TouchSensor,
+    // MouseSensor,
+    // TouchSensor,
     DragOverlay,
     defaultDropAnimationSideEffects,
     closestCorners,
@@ -17,6 +17,7 @@ import {
     getFirstCollision,
     // closestCenter,
 } from '@dnd-kit/core';
+import { MouseSensor, TouchSensor } from '~/customLibs/DndKitSensors';
 
 import ListColumns from './ListColumns/ListColumns';
 import Column from './ListColumns/Column/Column';
